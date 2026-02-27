@@ -1,0 +1,34 @@
+body {
+  font-family: Arial;
+  background: #eef;
+  padding: 20px;
+  text-align: center;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 20px auto;
+  width: 260px;
+}
+
+input, button {
+  padding: 10px;
+  border: 1px solid #aaa;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+button {
+  background: #0078d7;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+#resultado {
+  margin-top: 20px;
+  font-weight: bold;
+}
+

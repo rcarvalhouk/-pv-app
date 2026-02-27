@@ -1,0 +1,10 @@
+{
+  "name": "PV Configurator",
+  "short_name": "PVConfig",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0078d7",
+  "icons": []
+}
+
