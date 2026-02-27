@@ -6,41 +6,53 @@
   <title>SolarCalc Pro</title>
   <link rel="stylesheet" href="style.css">
   <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#18a999">
+  <meta name="theme-color" content="#0b8f82">
 </head>
+
 <body>
 
-<header class="app-header">
-  <div class="status">🔋 Offline Mode</div>
-  <h1>SolarCalc Pro</h1>
+<header class="appbar">
+  <span class="appbar-title">SolarCalc Pro</span>
 </header>
 
-<div class="card">
-  <h2>Dados de Entrada</h2>
-  <div class="fields-row">
-    <input id="vmp" type="number" placeholder="Tensão (Vmp)">
-    <input id="imp" type="number" placeholder="Corrente (Imp)">
-    <input id="n" type="number" placeholder="Nº de Painéis">
+<div class="container">
+
+  <div class="card">
+    <h2 class="card-title">Dados do Painel</h2>
+    <div class="field-grid">
+      <input id="vmp" type="number" placeholder="Vmp (V)">
+      <input id="imp" type="number" placeholder="Imp (A)">
+      <input id="voc" type="number" placeholder="Voc (V)">
+      <input id="isc" type="number" placeholder="Isc (A)">
+      <input id="coefvoc" type="number" placeholder="Coef. Voc (%/°C)">
+      <input id="coefpmax" type="number" placeholder="Coef. Pmax (%/°C)">
+      <input id="noct" type="number" placeholder="NOCT (°C)">
+      <input id="pmax" type="number" placeholder="Pmax (W)">
+      <input id="n" type="number" placeholder="Nº de painéis">
+    </div>
   </div>
-</div>
 
-<div class="card">
-  <h2>Especificações do Inversor</h2>
-  <div class="fields-row">
-    <input id="vinv" type="number" placeholder="Tensão Normal (V)">
-    <input id="imax" type="number" placeholder="Corrente Máx. (A)">
+  <div class="card">
+    <h2 class="card-title">Inversor</h2>
+    <div class="field-grid">
+      <input id="vinv" type="number" placeholder="Tensão MPPT (V)">
+      <input id="vmax" type="number" placeholder="Voc Máx (V)">
+      <input id="imax" type="number" placeholder="I Máx MPPT (A)">
+      <input id="tmin" type="number" placeholder="Temp. mínima (°C)">
+    </div>
   </div>
-</div>
 
-<button class="btn" onclick="calcular()">CALCULAR</button>
+  <button class="btn-calc" onclick="calcular()">CALCULAR</button>
 
-<div class="card">
-  <h2>Resultados da Ligação</h2>
-  <div id="resultado">Preencha os campos acima.</div>
-</div>
+  <div class="card">
+    <h2 class="card-title">Resultados</h2>
+    <div id="resultado">Insira os dados e clique em Calcular.</div>
+  </div>
 
-<div class="diagram-container">
-  <canvas id="diagrama" width="350" height="200"></canvas>
+  <div class="diagram-wrapper">
+    <canvas id="diagrama" width="360" height="200"></canvas>
+  </div>
+
 </div>
 
 <script src="script.js"></script>
