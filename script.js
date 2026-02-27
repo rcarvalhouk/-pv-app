@@ -5,6 +5,22 @@ function calcular() {
   const Vinv = +document.getElementById("vinv").value;
   const Imax = +document.getElementById("imax").value;
 
+// ---- Cálculo térmico Voc corrigido ----
+
+// Valores do painel
+const Voc = +document.getElementById("voc").value;
+const coefVoc = +document.getElementById("coefvoc").value / 100;  // converter % para decimal
+
+// Temperatura mínima local
+const Tmin = +document.getElementById("tmin").value;
+
+// Calcular Voc corrigido para frio
+const Voc_corrigido = Voc * (1 + coefVoc * (Tmin - 25));
+
+// Arredondar para segurança
+const Voc_corr = Voc_corrigido.toFixed(2);
+
+  
   let melhor = null;
   let erroMelhor = Infinity;
 
