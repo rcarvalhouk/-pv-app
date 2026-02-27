@@ -1,26 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SolarCalc Pro</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#18a999">
+</head>
 <body>
-  <div class="container">
-    <h1>🔆 PV Configurator</h1>
 
-    <div class="form">
-      <input id="vmp" type="number" placeholder="Tensão (Vmp)">
-      <input id="imp" type="number" placeholder="Corrente (Imp)">
-      <input id="n" type="number" placeholder="Número de painéis">
-      <input id="vinv" type="number" placeholder="Tensão do inversor">
-      <input id="imax" type="number" placeholder="Corrente máxima do inversor">
-      <button onclick="calcular()">Calcular</button>
-    </div>
+<header class="app-header">
+  <div class="status">🔋 Offline Mode</div>
+  <h1>SolarCalc Pro</h1>
+</header>
 
-    <div id="resultado"></div>
-    <canvas id="diagrama" width="400" height="250"></canvas>
+<div class="card">
+  <h2>Dados de Entrada</h2>
+  <div class="fields-row">
+    <input id="vmp" type="number" placeholder="Tensão (Vmp)">
+    <input id="imp" type="number" placeholder="Corrente (Imp)">
+    <input id="n" type="number" placeholder="Nº de Painéis">
   </div>
+</div>
 
-  <script src="script.js"></script>
+<div class="card">
+  <h2>Especificações do Inversor</h2>
+  <div class="fields-row">
+    <input id="vinv" type="number" placeholder="Tensão Normal (V)">
+    <input id="imax" type="number" placeholder="Corrente Máx. (A)">
+  </div>
+</div>
 
-  <script>
-    if ("serviceWorker" in navigator) {
-      navigator.serviceWorker.register("service-worker.js");
-    }
-  </script>
+<button class="btn" onclick="calcular()">CALCULAR</button>
+
+<div class="card">
+  <h2>Resultados da Ligação</h2>
+  <div id="resultado">Preencha os campos acima.</div>
+</div>
+
+<div class="diagram-container">
+  <canvas id="diagrama" width="350" height="200"></canvas>
+</div>
+
+<script src="script.js"></script>
+
+<script>
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("service-worker.js");
+}
+</script>
+
 </body>
-
+</html>
