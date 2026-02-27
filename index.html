@@ -1,27 +1,19 @@
-<!DOCTYPE html>
-<html lang="pt">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PV Configurator</title>
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#0078d7">
-  <link rel="stylesheet" href="style.css">
-</head>
 <body>
-  <h1>PV Configurator</h1>
+  <div class="container">
+    <h1>🔆 PV Configurator</h1>
 
-  <div class="form">
-    <input id="vmp" type="number" placeholder="Tensão Vmp">
-    <input id="imp" type="number" placeholder="Corrente Imp">
-    <input id="n" type="number" placeholder="Número de painéis">
-    <input id="vinv" type="number" placeholder="Tensão do inversor">
-    <input id="imax" type="number" placeholder="Corrente máxima do inversor">
-    <button onclick="calcular()">Calcular</button>
+    <div class="form">
+      <input id="vmp" type="number" placeholder="Tensão (Vmp)">
+      <input id="imp" type="number" placeholder="Corrente (Imp)">
+      <input id="n" type="number" placeholder="Número de painéis">
+      <input id="vinv" type="number" placeholder="Tensão do inversor">
+      <input id="imax" type="number" placeholder="Corrente máxima do inversor">
+      <button onclick="calcular()">Calcular</button>
+    </div>
+
+    <div id="resultado"></div>
+    <canvas id="diagrama" width="400" height="250"></canvas>
   </div>
-
-  <div id="resultado"></div>
-  <canvas id="diagrama" width="400" height="250"></canvas>
 
   <script src="script.js"></script>
 
@@ -31,5 +23,4 @@
     }
   </script>
 </body>
-</html>
 
