@@ -1,81 +1,165 @@
-body {
-  font-family: "Segoe UI", Arial, sans-serif;
-  background: linear-gradient(to bottom, #dff4ff, #e8f8ff);
+/* ---------------------------------------
+    SOLARCALC PRO — MATERIAL DESIGN 3 UI
+    Estilo Android moderno (2024+)
+----------------------------------------*/
+
+/* Reset */
+* {
   margin: 0;
-  padding: 20px;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.app-header {
-  text-align: center;
-  margin-bottom: 15px;
+body {
+  font-family: "Roboto", "Segoe UI", sans-serif;
+  background: linear-gradient(to bottom, #e6f7f7, #d5f3ff);
+  color: #0b3d3a;
+  padding: 0;
+  min-height: 100vh;
 }
 
-.app-header h1 {
-  margin: 5px 0;
-  font-size: 26px;
-  color: #034f4a;
-  font-weight: 700;
-}
-
-.status {
-  font-size: 13px;
-  opacity: 0.6;
-}
-
-.card {
-  background: white;
-  padding: 15px;
-  border-radius: 12px;
-  margin-bottom: 15px;
-  box-shadow: 0px 4px 10px rgba(0,0,0,0.08);
-}
-
-.card h2 {
-  margin-top: 0;
-  font-size: 17px;
-  color: #037c73;
-}
-
-.fields-row {
+/* ---------------------------------------
+    APP BAR (Header topo)
+----------------------------------------*/
+.appbar {
+  width: 100%;
+  background: #0b8f82;
+  padding: 16px;
   display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
+  align-items: center;
+  box-shadow: 0px 4px 12px rgba(0,0,0,0.18);
+  position: sticky;
+  top: 0;
+  z-index: 999;
+}
+
+.appbar-title {
+  color: white;
+  font-size: 22px;
+  font-weight: 600;
+  margin-left: 4px;
+  letter-spacing: 0.5px;
+}
+
+/* ---------------------------------------
+    CONTAINER (Área central da app)
+----------------------------------------*/
+.container {
+  padding: 18px;
+  padding-bottom: 40px;
+}
+
+/* ---------------------------------------
+    CARDS (Material Design 3)
+----------------------------------------*/
+.card {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 18px;
+  margin-bottom: 20px;
+  box-shadow: 0px 3px 12px rgba(0,0,0,0.12);
+  animation: fadeIn 0.4s ease;
+}
+
+.card-title {
+  font-size: 17px;
+  margin-bottom: 12px;
+  font-weight: 600;
+  color: #066f66;
+}
+
+/* ---------------------------------------
+    INPUTS (Material inputs)
+----------------------------------------*/
+.field-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 12px;
 }
 
 input {
   padding: 12px;
-  flex: 1;
-  min-width: 120px;
   border-radius: 10px;
-  border: 1px solid #bcd9dd;
-  background: #f6fbfc;
-  font-size: 14px;
+  border: 1px solid #b7d9d7;
+  background: #f8fefe;
+  font-size: 15px;
+  transition: 0.2s;
+  outline: none;
 }
 
-.btn {
+input:focus {
+  border-color: #0b8f82;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(11, 143, 130, 0.25);
+}
+
+/* ---------------------------------------
+    BOTÃO PRINCIPAL (CALCULAR)
+----------------------------------------*/
+.btn-calc {
   width: 100%;
   padding: 14px;
   background: #ff9e29;
   color: white;
-  font-weight: bold;
   border: none;
-  border-radius: 30px;
+  border-radius: 26px;
   font-size: 18px;
+  font-weight: 700;
+  margin: 10px 0 22px 0;
   cursor: pointer;
-  margin: 10px 0;
-  box-shadow: 0 4px 10px rgba(255,162,0,0.35);
+  letter-spacing: 0.6px;
+  box-shadow: 0px 4px 12px rgba(255, 158, 41, 0.45);
+  transition: 0.2s;
 }
 
-.btn:hover {
-  background: #e48920;
+.btn-calc:hover {
+  background: #e58b1f;
+  box-shadow: 0px 6px 14px rgba(255, 158, 41, 0.6);
 }
 
+.btn-calc:active {
+  transform: scale(0.97);
+}
+
+/* ---------------------------------------
+    RESULTADOS
+----------------------------------------*/
 #resultado {
   font-size: 15px;
   line-height: 1.5;
+  padding: 5px 0;
+  color: #0b3d3a;
 }
 
-.diagram-container {
+/* Avisos (inteligentes) */
+.result-ok {
+  background: #e7fff4;
+  border-left: 5px solid #16c57f;
+  padding: 10px;
+  margin-top: 15px;
+  border-radius: 6px;
+}
+
+.result-warning {
+  background: #fff2cd;
+  border-left: 5px solid #ffb300;
+  padding: 10px;
+  margin-top: 15px;
+  border-radius: 6px;
+}
+
+.result-error {
+  background: #ffe4e4;
+  border-left: 5px solid #e04040;
+  padding: 10px;
+  margin-top: 15px;
+  border-radius: 6px;
+}
+
+/* ---------------------------------------
+    DIAGRAMA
+----------------------------------------*/
+.diagram-wrapper {
   display: flex;
   justify-content: center;
   margin-top: 10px;
@@ -83,6 +167,33 @@ input {
 
 canvas {
   background: #ffffff;
-  border: 1px solid #d7e6e7;
-  border-radius: 8px;
+  border: 1px solid #cfe7e5;
+  border-radius: 10px;
+  padding: 6px;
+  box-shadow: 0px 3px 10px rgba(0,0,0,0.08);
+}
+
+/* ---------------------------------------
+    ANIMAÇÕES
+----------------------------------------*/
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ---------------------------------------
+    RESPONSIVO (MOBILE FIRST)
+----------------------------------------*/
+@media (max-width: 480px) {
+  .appbar-title {
+    font-size: 20px;
+  }
+
+  input {
+    font-size: 14px;
+  }
+
+  .btn-calc {
+    font-size: 16px;
+  }
 }
