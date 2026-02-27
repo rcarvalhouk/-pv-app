@@ -59,6 +59,97 @@ function calcular() {
     <br><br>
     ${avisoVoc}
   `;
+
+  // -----------------------------------------
+// COMPARAÇÃO ENTRE TODAS AS CONFIGURAÇÕES
+// -----------------------------------------
+let configs = [];
+for (let NsTest = 1; NsTest <= N; NsTest++) {
+  if (N % NsTest === 0) {
+    let NpTest = N / NsTest;
+    let Vt_test = NsTest * Vmp;
+    let It_test = NpTest * Imp;
+    let Voc_total_test = (Voc_corrigido * NsTest);
+    let seguroVoc = Voc_total_test <= Vmax;
+    let seguroIsc = It_test <= Imax;
+    let score = 0;
+    // Critérios para ranking
+    if (seguroVoc) score += 40;
+    if (seguroIsc) score += 40;
+    // Melhor aproximação de tensão ao MPPT
+    score += Math.max(0, 20 - Math.abs(Vt_test - Vinv));
+    configs.push({
+      Ns: NsTest,
+      Np: NpTest,
+      Vt: Vt_test.toFixed(2),
+      It: It_test.toFixed(2),
+      VocCorr: Voc_total_test.toFixed(2),
+      seguroVoc,
+      seguroIsc,
+      score
+    });
+  }
+}
+// ORDENAR CONFIGURAÇÕES POR SCORE
+configs.sort((a, b) => b.score - a.score);
+// EXIBIR TABELA
+let htmlTabela = `
+<table class="table-comp">
+  <tr>
+    <th>Configuração</th>
+    <th>Tensão</th>
+    <th>Corrente</th>
+    <th>Voc Corr.</th>
+    <th>Segurança</th>
+  </tr>
+`;
+configs.forEach(c => {
+  htmlTabela += `
+  <tr>
+    <td>${c.Ns}S x ${c.Np}P</td>
+    <td>${c.Vt} V</td>
+    <td>${c.It} A</td>
+    <td>${c.VocCorr} V</td>
+    <td>
+      ${c.seguroVoc && c.seguroIsc ? "✔ OK" : "⚠ Risco"}
+    </td>
+  </tr>
+  `;
+});
+htmlTabela += "</table>";
+document.getElementById("comparacao").innerHTML = htmlTabela;
+// -----------------------------------------
+// RANKING FINAL
+// -----------------------------------------
+let melhor = configs[0];
+let medio = configs[1] || null;
+let pior = configs[configs.length - 1];
+let rankHTML = `
+<div class="rank-item rank-best">
+  🥇 <b>Melhor Configuração:</b> ${melhor.Ns}S x ${melhor.Np}P<br>
+  • Melhor equilíbrio entre tensão e corrente<br>
+  • Alta segurança térmica<br>
+  • Tensão próxima ao MPPT ideal
+</div>
+`;
+if (medio) {
+rankHTML += `
+<div class="rank-item rank-mid">
+  🥈 <b>Alternativa Viável:</b> ${medio.Ns}S x ${medio.Np}P<br>
+  • Pode ser usada dependendo da cablagem ou MPPT<br>
+  • Verificar tensão de arranque e perdas
+</div>
+`;
+}
+rankHTML += `
+<div class="rank-item rank-bad">
+  🥉 <b>Pior Configuração:</b> ${pior.Ns}S x ${pior.Np}P<br>
+  • Baixa eficiência ou riscos térmicos<br>
+  • Recomendado evitar esta ligação
+</div>
+`;
+document.getElementById("ranking").innerHTML = rankHTML;
+  
 }
 // Adiciona ao HTML
 resultadoDiv.innerHTML += avisoVoc;
