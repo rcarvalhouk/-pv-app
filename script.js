@@ -60,3 +60,5 @@ function calcular() {
     ${avisoVoc}
   `;
 }
+// Adiciona ao HTML
+resultadoDiv.innerHTML += avisoVoc;
