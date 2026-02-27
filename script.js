@@ -1,81 +1,62 @@
 function calcular() {
+
   const Vmp = +document.getElementById("vmp").value;
   const Imp = +document.getElementById("imp").value;
+  const Voc = +document.getElementById("voc").value;
+  const Isc = +document.getElementById("isc").value;
+
+  const coefVoc = +document.getElementById("coefvoc").value / 100; // converter % para decimal
+  const coefPmax = +document.getElementById("coefpmax").value / 100;
+  const NOCT = +document.getElementById("noct").value;
+  const Pmax = +document.getElementById("pmax").value;
+
   const N = +document.getElementById("n").value;
+
   const Vinv = +document.getElementById("vinv").value;
+  const Vmax = +document.getElementById("vmax").value;
   const Imax = +document.getElementById("imax").value;
+  const Tmin = +document.getElementById("tmin").value;
 
-// ---- Cálculo térmico Voc corrigido ----
+  const resultadoDiv = document.getElementById("resultado");
+  resultadoDiv.innerHTML = ""; // limpar resultados
 
-// Valores do painel
-const Voc = +document.getElementById("voc").value;
-const coefVoc = +document.getElementById("coefvoc").value / 100;  // converter % para decimal
+  // -----------------------------------------
+  // MÓDULO 1 — Cálculo Térmico Voc Corrigido
+  // -----------------------------------------
+  const Voc_corrigido = Voc * (1 + coefVoc * (Tmin - 25));
+  const Voc_corr = Voc_corrigido.toFixed(2);
 
-// Temperatura mínima local
-const Tmin = +document.getElementById("tmin").value;
+  let avisoVoc = "";
 
-// Calcular Voc corrigido para frio
-const Voc_corrigido = Voc * (1 + coefVoc * (Tmin - 25));
-
-// Arredondar para segurança
-const Voc_corr = Voc_corrigido.toFixed(2);
-
-  
-  let melhor = null;
-  let erroMelhor = Infinity;
-
-  for (let Ns = 1; Ns <= N; Ns++) {
-    if (N % Ns === 0) {
-      let Np = N / Ns;
-      let Vt = Ns * Vmp;
-      let It = Np * Imp;
-
-      if (Vt <= 1.1 * Vinv && It <= Imax) {
-        let erro = Math.abs(Vinv - Vt);
-        if (erro < erroMelhor) {
-          erroMelhor = erro;
-          melhor = { Ns, Np, Vt, It };
-        }
-      }
-    }
+  if (Voc_corrigido > Vmax) {
+    avisoVoc = `
+      <div class="result-error">
+        ⚠ PERIGO: Voc corrigido = ${Voc_corr} V<br>
+        Excede o limite do inversor (${Vmax} V).<br>
+        Reduza módulos em série imediatamente.
+      </div>
+    `;
+  } 
+  else if (Voc_corrigido > Vmax * 0.9) {
+    avisoVoc = `
+      <div class="result-warning">
+        ⚠ Atenção: Voc = ${Voc_corr} V está perto do limite (${Vmax} V).<br>
+        Considere reduzir 1 módulo em série.
+      </div>
+    `;
+  }
+  else {
+    avisoVoc = `
+      <div class="result-ok">
+        ✔ Voc corrigido (${Voc_corr} V) está seguro dentro dos limites.
+      </div>
+    `;
   }
 
-  const r = document.getElementById("resultado");
-  const c = document.getElementById("diagrama");
-  const ctx = c.getContext("2d");
-  ctx.clearRect(0, 0, c.width, c.height);
-
-  if (!melhor) {
-    r.innerText = "Nenhuma configuração válida.";
-    return;
-  }
-
-  r.innerHTML =
-    melhor.Ns + " série × " + melhor.Np + " paralelo<br>" +
-    "Tensão: " + melhor.Vt + " V<br>" +
-    "Corrente: " + melhor.It + " A";
-
-  const sx = c.width / (melhor.Ns + 1);
-  const sy = c.height / (melhor.Np + 1);
-
-  for (let p = 0; p < melhor.Np; p++) {
-    for (let s = 0; s < melhor.Ns; s++) {
-      const x = (s + 1) * sx;
-      const y = (p + 1) * sy;
-      ctx.strokeRect(x - 15, y - 10, 30, 20);
-    }
-    ctx.beginPath();
-    ctx.moveTo(sx, (p + 1) * sy);
-    ctx.lineTo(melhor.Ns * sx, (p + 1) * sy);
-    ctx.stroke();
-  }
-
-  ctx.beginPath();
-  ctx.moveTo(sx, sy);
-  ctx.lineTo(sx, melhor.Np * sy);
-
-  ctx.moveTo(melhor.Ns * sx, sy);
-  ctx.lineTo(melhor.Ns * sx, melhor.Np * sy);
-  ctx.stroke();
+  // Mostrar resultado térmico
+  resultadoDiv.innerHTML += `
+    <b>Voc corrigido para frio:</b> ${Voc_corr} V
+    <br><br>
+    ${avisoVoc}
+  `;
 }
-
